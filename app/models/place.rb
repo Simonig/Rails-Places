@@ -1,6 +1,6 @@
 class Place
 
-  attr_accessor :_id, :formatted_address, :location, :address_components
+  attr_accessor :id, :formatted_address, :location, :address_components
 
     def self.mongo_client
         Mongoid::Clients.default
@@ -16,11 +16,24 @@ class Place
         self.collection.insert_many(file)
     end
 
-    def initialize(hash={})
-      @_id = hash[:_id].to_s
-      @address_components = hash[:address_components]
+  def self.find_by_short_name(short_name)
+    self.collection.find(:"address_components.short_name"=>short_name)
+  end
+
+  def self.to_places(input)
+    places = []
+      places << input.each{ |x| Place.new(x)}
+    return places
+  end
+
+
+    def initialize(hash = {})
+      @address_components = []
+      @id = hash[:_id].to_s
+      hash[:address_components].each{|x| @address_components << AddressComponent.new(x)}
+
       @formatted_address = hash[:formatted_address]
-      @geometry = Point.new(hash[:geometry][:location])
+      @location =  Point.new(hash[:geometry][:location])
 
 
     end
