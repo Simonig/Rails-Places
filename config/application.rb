@@ -24,4 +24,5 @@ module Places
     config.active_record.raise_in_transactional_callbacks = true
       Mongoid.load!('./config/mongoid.yml')
   end
+
 end

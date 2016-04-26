@@ -22,8 +22,36 @@ class Place
 
   def self.to_places(input)
     places = []
-      places << input.each{ |x| Place.new(x)}
+      input.each{|x| places << Place.new(x)}
     return places
+  end
+
+  def self.find(id)
+    id = BSON::ObjectId.from_string(id)
+    doc = self.collection.find("_id" => id).first
+    if doc
+      puts doc
+      return Place.new(doc)
+    end
+
+  end
+  def self.all(offset = 0, limit = nil)
+
+    result = []
+    if limit.nil?
+    collection.find.skip(offset).each {|r| result << Place.new(r)}
+
+    else
+      collection.find.skip(offset).limit(limit).each {|r| result << Place.new(r)}
+    end
+
+    return result
+  end
+
+  def destroy
+    self.class.collection
+        .find(_id: BSON::ObjectId.from_string(@id))
+        .delete_one
   end
 
 
