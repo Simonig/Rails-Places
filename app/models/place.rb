@@ -105,14 +105,13 @@ class Place
 
   end
 
-  def near (max_meters=nil)
+  def near(max_meters=nil)
+    near_query={:$geometry=>@location}
 
-     location = [:location]
-     near_query={:$geometry=>location.to_hash}
+    near_query[:$maxDistance]=max_meters if max_meters
 
-     near_query[:$maxDistance]=max_meters if max_meters
-
-     return collection.find(:"geometry.geolocation"=>{:$near=>near_query})
+      return self.to_places(self.collection.find(:"geometry.geolocation"=>{:$near=>near_query}))
+     #self.class.collection.find(:"geometry.geolocation"=>{:$near=>near_query})
    #Place.class.to_places(Place.class.near(@location, max_meters))
 
   end
@@ -122,7 +121,6 @@ class Place
       @address_components = []
       @id = hash[:_id].to_s
       hash[:address_components].each{|x| @address_components << AddressComponent.new(x)}
-
       @formatted_address = hash[:formatted_address]
       @location =  Point.new(hash[:geometry][:location])
 
