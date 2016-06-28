@@ -220,9 +220,7 @@ feature "Module #2 Photo Tests" do
       @photo = Photo.new
       # reset db
       dt = Photo.mongo_client.database.fs
-      dt.find.each { |p|
-        dt.files_collection.find(:_id=>p[:_id]).delete_one
-      } 
+      dt.find.each { |p| dt.files_collection.find(:_id=>p[:_id]).delete_one }
     end
 
     it "Photo Model has an intance method called contents" do

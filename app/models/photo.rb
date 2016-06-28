@@ -13,10 +13,15 @@ class Photo
   end
 
   def save
+
     if persisted?
-      return
+      location = Point.new(@location.to_hash)
+      return self.class.mongo_client.database.fs.find(id_criteria)
+                    .update_one(":$set" => location.to_hash)
+
     end
     gps = EXIFR::JPEG.new(@contents).gps
+    @contents.rewind
     description = {}
     description[:content_type]= "image/jpeg"
     description[:metadata] = {}
@@ -26,6 +31,9 @@ class Photo
     id = self.class.mongo_client.database.fs.insert_one(grid_file)
     @id=id.to_s
 
+  end
+  def destroy
+    self.class.mongo_client.database.fs.find(id_criteria).delete_one
   end
 
   def self.all(skip = 0, limit = nil)
@@ -45,6 +53,42 @@ class Photo
     return files
 
   end
+
+  def self.find(id)
+    id = BSON::ObjectId.from_string(id)
+    doc = mongo_client.database.fs.find("_id" => id).first
+    if doc
+      return Photo.new(doc)
+    end
+
+  end
+
+  def self.id_criteria id
+    {_id:BSON::ObjectId.from_string(id)}
+  end
+  def id_criteria
+    self.class.id_criteria @id
+  end
+
+  def contents
+    f=self.class.mongo_client.database.fs.find_one(id_criteria)
+
+    if f
+      buffer = ""
+      f.chunks.reduce([]) do |x,chunk|
+        buffer << chunk.data.data
+      end
+      return buffer
+    end
+  end
+
+  def find_nearest_place_id (max_meters)
+
+  Place.near(@location, max_meters).limit(1).projection({_id:true}).map{ |u| return u[:_id]}
+
+
+  end
+
 
 
   def initialize (hash = {})
