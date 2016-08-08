@@ -20,6 +20,14 @@ class Place
     self.collection.find(:"address_components.short_name"=>short_name)
   end
 
+  def photos (offset = 0, limit = nil)
+    id = BSON::ObjectId.from_string(@id)
+    result = []
+    Photo.mongo_client.database.fs.find(:"metadata.place"=>id).skip(offset).map{|doc| result << Photo.new(doc)}
+    return result
+
+  end
+
   def self.to_places(input)
     places = []
       input.each{|x| places << Place.new(x)}
