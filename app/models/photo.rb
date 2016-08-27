@@ -15,7 +15,8 @@ class Photo
   def save
 
     if persisted?
-      return self.class.mongo_client.database.fs.find(id_criteria).update_one(:$set => {"metadata.location" => @location.to_hash}, :$set => {"metadata.place" => @place} )
+
+      return self.class.mongo_client.database.fs.find(id_criteria).update_one(:$set => {metadata: {location:@location.to_hash, place:@place}})
     end
     gps = EXIFR::JPEG.new(@contents).gps
     @contents.rewind

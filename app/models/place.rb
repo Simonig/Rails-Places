@@ -1,5 +1,7 @@
 class Place
 
+  include ActiveModel::Model
+
   attr_accessor :id, :formatted_address, :location, :address_components
 
     def self.mongo_client
@@ -72,6 +74,10 @@ class Place
 
     result = self.collection.aggregate(pipe)
 
+  end
+
+  def persisted?
+    !@id.nil?
   end
 
   def self.get_country_names
