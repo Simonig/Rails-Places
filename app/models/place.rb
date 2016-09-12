@@ -40,7 +40,6 @@ class Place
     id = BSON::ObjectId.from_string(id)
     doc = self.collection.find("_id" => id).first
     if doc
-      puts doc
       return Place.new(doc)
     end
 
