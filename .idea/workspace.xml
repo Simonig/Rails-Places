@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="94c7b135-ea07-484e-ad99-83b2c1f56c32" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Gemfile.lock" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/places.iml" afterPath="$PROJECT_DIR$/.idea/places.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/place.rb" afterPath="$PROJECT_DIR$/app/models/place.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spec/dev/null.txt" afterPath="$PROJECT_DIR$/spec/dev/null.txt" />
     </list>
     <ignored path="places.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -538,12 +534,12 @@
       <workItem from="1472259146645" duration="519000" />
       <workItem from="1472313767261" duration="2701000" />
       <workItem from="1472433095237" duration="67000" />
-      <workItem from="1473688605338" duration="95000" />
+      <workItem from="1473688605338" duration="505000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="125936000" />
+    <option name="totallyTimeSpent" value="126346000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
